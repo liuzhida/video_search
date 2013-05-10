@@ -1,0 +1,220 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title> 首页 - 视频搜索 </title>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="Author" content="xiewulong" />
+<meta name="Keywords" content="" />
+<meta name="Description" content="" />
+<link rel="stylesheet" type="text/css" href="/static/css/public.css" />
+<link rel="stylesheet" type="text/css" href="/static/css/main.css" />
+<script type="text/javascript" src="/static/js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="/static/js/jquery.tinyscrollbar.min.js"></script>
+<!--
+<script type="text/javascript" src="js/require-2.0.4.js"></script>
+<script type="text/javascript" src="js/Narya.js"></script>
+-->
+<!--[if IE 6]>
+<script src="js/DD_belatedPNG.js"></script>
+<script src="js/png.js"></script>
+<![endif]-->
+</head>
+
+<body>
+
+<div id="scrollbar" class="scrollbar">
+
+<div id="wdj_xwl_search" class="wdj_xwl_search fix">
+	<div class="wdj_xwl_search_btn"><a href="#" id="wdj_xwl_search_btn"></a></div>
+	<div class="wdj_xwl_search_ipt"><span><form method="get" action="/static/list.html" id="searchform"><input type="text" id="wdj_xwl_search_ipt" class="wdj_xwl_inputs" name="word" /></form></span></div>
+</div>
+
+<div class="w760 mrla">
+
+	<div class="topcomefrome" style="font-size:12px;color:#999;margin-left:10px;">以下内容由 「<a href="http://www.letv.com/" target="_default">乐视</a>」、「<a href="http://www.pptv.com/" target="_default">PPTV</a>」和「<a href="http://tv.sohu.com/drama/" target="_default">搜狐视频</a>」 提供</div>
+
+	<div id="wdj_xwl_wrap_index">
+
+		<div id="wdj_xwl_focus" class="wdj_xwl_focus">
+			<ul>
+				<li><a href="/static/minishow.html?M93d7afc2011"><img src="/static/images/banner1.jpg" /></a></li>
+				<li><a href="/static/minishow.html?Mdcbea122012"><img src="/static/images/banner2.jpg" /></a></li>
+				<li><a href="/static/minishow.html?Mf19d9e32011"><img src="/static/images/banner3.jpg" /></a></li>
+				<li><a href="/static/minishow.html?T3d023162011"><img src="/static/images/banner4.jpg" /></a></li>
+				<li><a href="/static/minishow.html?Mc5b37052011"><img src="/static/images/banner5.jpg" /></a></li>
+				<li><a href="/static/minishow.html?Tb2a8fef2012"><img src="/static/images/banner6.jpg" /></a></li>
+				<li><a href="/static/minishow.html?T1f676672011"><img src="/static/images/banner7.jpg" /></a></li>
+
+			
+			</ul>
+			<div class="wdj_xwl_focus_scroll">
+				<div class="wdj_xwl_focus_scroller_wrap">
+					<div class="wdj_xwl_focus_scroller">
+						<p>
+							<span><a href="javascript:;"><img src="/static/images/banner1.jpg" /></a><i></i><em></em></span>
+							<span><a href="javascript:;"><img src="/static/images/banner2.jpg" /></a><i></i><em></em></span>
+							<span><a href="javascript:;"><img src="/static/images/banner3.jpg" /></a><i></i><em></em></span>
+							<span><a href="javascript:;"><img src="/static/images/banner4.jpg" /></a><i></i><em></em></span>
+							<span><a href="javascript:;"><img src="/static/images/banner5.jpg" /></a><i></i><em></em></span>
+							<span><a href="javascript:;"><img src="/static/images/banner6.jpg" /></a><i></i><em></em></span>
+							<span><a href="javascript:;"><img src="/static/images/banner7.jpg" /></a><i></i><em></em></span>
+							
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="fix pb5">
+			<div class="wdj_xwl_rw fr">
+				<div class="wdj_xwl_box">
+					<div class="wdj_xwl_box_title">
+						<a href="/static/tlist.html?list=thot" class="wdj_xwl_box_title_more fr">更多</a>
+						<h3>电视剧排行榜</h3>
+					</div>
+					<div class="wdj_xwl_box_con">
+						<div id="wdj_xwl_json_2" class="wdj_xwl_sublist">
+                        {% for n in range(10) %}
+                            {% if n ==0 %}
+                            <p class="first fix"><a href="/static/minishow.html?{{ toptv[n]['id'] }}" class="thumb"><img src="http://video.wandoujia.com/api/img/{{ toptv[n]['id'] }}"><i>1</i></a><strong class="fix"><em>{{ toptv[n]['score']  }}</em><a href="/static/minishow.html?{{ toptv[n]['id'] }}">{{ toptv[n]['title'] }}</a></strong><span>{{ toptv[n]['info'] }}</span></p>
+                            {% else %}
+                            <p><em>{{ toptv[n]['score'] }}</em><i>{{ n+1 }}</i><strong><a href="/static/minishow.html?{{ toptv[n]['id'] }}">{{ toptv[n]['title'] }}</a></strong></p>
+                            {% end %}
+                        {% end %}
+
+                        </div>
+					</div>
+				</div>
+			</div>
+			<div class="auto wdj_xwl_lw">
+				<div class="wdj_xwl_box">
+					<div class="wdj_xwl_box_title">
+						<a href="/static/tlist.html?list=tnew" class="wdj_xwl_box_title_more fr">更多</a>
+						<h3>同步热播电视剧</h3>
+					</div>
+					<div class="wdj_xwl_box_con">
+						<ul id="wdj_xwl_json_3" class="wdj_xwl_vlist">
+                        {% for n in range(8) %}
+                            {% if (n+1) %4 ==0 %}
+                            <li class="pr0"><p>
+                            {% else %}
+                            <li><p>
+                            {% end %}
+                            <a href="/static/minishow.html?{{ newtv[n]['id'] }}"><img src="http://video.wandoujia.com/api/img/{{ newtv[n]['id'] }}"></a>
+                                <strong><a href="/static/minishow.html?{{ newtv[n]['id'] }}">{{ newtv[n]['time'] }}</a></strong>
+                                <i></i>
+                                </p>
+                                <span><a href="/static/minishow.html?{{ newtv[n]['id'] }}">{{ newtv[n]['title'].decode("utf-8").encode("utf-8") }}</a></span>
+                            </li>
+                        {% end %}
+                        </ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="fix pb5">
+			<div class="wdj_xwl_rw fr">
+				<div class="wdj_xwl_box">
+					<div class="wdj_xwl_box_title">
+						<a href="/static/mlist.html?list=mhot" class="wdj_xwl_box_title_more fr">更多</a>
+						<h3>电影排行榜</h3>
+					</div>
+					<div class="wdj_xwl_box_con">
+						<div id="wdj_xwl_json_1" class="wdj_xwl_sublist">
+                        {% for n in range(10) %}
+                            {% if n ==0 %}
+                            <p class="first fix"><a href="/static/minishow.html?{{ topmovie[n]['id'] }}" class="thumb"><img src="http://video.wandoujia.com/api/img/{{ topmovie[n]['id'] }}"><i>1</i></a><strong class="fix"><em>{{ topmovie[n]['score']  }}</em><a href="/static/minishow.html?{{ topmovie[n]['id'] }}">{{ topmovie[n]['title'] }}</a></strong><span>{{ topmovie[n]['info'] }}</span></p>
+                            {% else %}
+                            <p><em>{{ topmovie[n]['score'] }}</em><i>{{ n+1 }}</i><strong><a href="/static/minishow.html?{{ topmovie[n]['id'] }}">{{ topmovie[n]['title'] }}</a></strong></p>
+                            {% end %}
+                        {% end %}
+                        
+                        </div>
+					</div>
+				</div>
+			</div>
+			<div class="auto wdj_xwl_lw">
+				<div class="wdj_xwl_box">
+					<div class="wdj_xwl_box_title">
+						<a href="/static/mlist.html?list=mnew" class="wdj_xwl_box_title_more fr">更多</a>
+						<h3>同步热播电影</h3>
+					</div>
+					<div class="wdj_xwl_box_con">
+						<ul id="wdj_xwl_json_4" class="wdj_xwl_vlist">
+
+                        {% for n in range(8) %}
+                            {% if (n+1) %4 ==0 %}
+                            <li class="pr0"><p>
+                            {% else %}
+                            <li><p>
+                            {% end %}
+                            <a href="/static/minishow.html?{{ newmovie[n]['id'] }}"><img src="http://video.wandoujia.com/api/img/{{ newmovie[n]['id'] }}"></a>
+                                <strong><a href="/static/minishow.html?{{ newmovie[n]['id'] }}">{{ newmovie[n]['time'] }}</a></strong>
+                                <i></i>
+                                </p>
+                                <span><a href="/static/minishow.html?{{ newmovie[n]['id'] }}">{{ newmovie[n]['title'].decode("utf-8").encode("utf-8") }}</a></span>
+                            </li>
+                        {% end %}
+ 
+                        </ul>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="fix pb5">
+			<div class="wdj_xwl_rw fr">
+				<div class="wdj_xwl_box">
+					<div class="wdj_xwl_box_title"><h3>&nbsp;</h3></div>
+					<div class="wdj_xwl_box_con"></div>
+				</div>
+			</div>
+			<div class="auto  wdj_xwl_lw">
+				<div class="wdj_xwl_box">
+					<div class="wdj_xwl_box_title"><h3>下载视频应用</h3></div>
+					<div class="wdj_xwl_box_con">
+					<div class="wdj_xwl_flinks">
+					<a href="http://mini.wandoujia.com/apps/com.sohu.sohuvideo" data-contentid="152"><img src="/static/images/sohutv.png"></a>
+					<a href="http://mini.wandoujia.com/apps/com.pplive.androidphone"  data-contentid="139"><img src="/static/images/pptv.png"></a>
+					<a href="http://mini.wandoujia.com/apps/com.letv.android.client" data-contentid="44"><img src="/static/images/letv.png"></a>
+					</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="footer" style="border-top:1px solid #CCC;font-size:12px;margin:30px 0 20px;">
+		<p style="color:#666;margin:10px">&copy; 2010 - 2013 豌豆实验室 </p>
+		<p style="color:#999;margin-left:10px;">除非特别注明，视频资源由第三方视频服务商提供，豌豆荚仅根据您的指令提供搜索结果链接，与出处无关，详情请参阅<a class="link" target="_default" href="http://www.wandoujia.com/intellectual_property">知识产权保护声明</a></p>
+	</div>
+
+</div>
+
+</div>
+
+<script type="text/javascript" src="/static/js/main.js"></script>
+<!--
+<script type="text/javascript">
+/*
+Narya.Doraemon.openExtensionAsync(1,'电视剧排行榜','http://wdj.m.letv.com/list.phtml?cid=5&p=2');
+Narya.Doraemon.openExtensionAsync(2,'同步热播电视剧','http://app.tv.sohu.com/360_app/search.jsp?c=2');
+Narya.Doraemon.openExtensionAsync(3,'电影排行榜','http://wdj.m.letv.com/list.phtml?cid=4&p=2');
+Narya.Doraemon.openExtensionAsync(4,'同步热播电影','http://app.tv.sohu.com/360_app/search2.jsp?c=1');
+Narya.Doraemon.openExtensionAsync(5,'综艺排行榜','http://app.aplus.pptv.com/minisite/360xiazai/list/4.htm');
+Narya.Doraemon.openExtensionAsync(6,'同步热播综艺','http://app.tv.sohu.com/360_app/search.jsp?c=7');
+Narya.Doraemon.openExtensionAsync(7,'动漫排行榜','http://app.aplus.pptv.com/minisite/360xiazai/list/3.htm');
+Narya.Doraemon.openExtensionAsync(8,'同步热播动漫','http://app.aplus.pptv.com/minisite/360xiazai/list/3------6.html');
+*/
+</script>
+-->
+<script>var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-15790641-32']);
+  _gaq.push(['_trackPageview']);
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+</script>
+</body>
+</html>

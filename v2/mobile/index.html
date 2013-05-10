@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<title>Wandoujia Movie</title>
+<link type="text/css" rel="stylesheet" href="./styles/default.css?201301291650" />
+<script type="text/javascript" src="./js/iscroll.js?201301291650"></script>
+<script type="text/javascript" src="./js/jquery.js?201301291650"></script>
+<script type="text/javascript" src="./js/jq.template.js?201301291650"></script>
+<link rel="prefetch" href="./styles/images/download.png?201301291650"/>
+<link rel="prefetch" href="./styles/images/cancel.png?201301291650"/>
+<link rel="prefetch" href="./styles/images/open.png?201301291650"/>
+</head>
+<body>
+<div class="group" id="header">
+	<li data-tab="tv">
+	    电视剧
+	</li>
+	<li data-tab="movie">
+	    电影
+	</li>
+	<!--li data-tab="singer-index" data-showloading="1" style="width:28%">
+	    我是歌手
+	</li-->
+	<li data-tab="category-index" data-showloading="1">
+	    分类
+	</li>
+	<li data-tab="search-index" data-showloading="1">
+	    搜索
+	</li>
+	<li data-tab="singer-detail" style="display:none">
+	</li>
+	<li data-tab="category" style="display:none">
+	</li>
+	<li data-tab="search" style="display:none"></li>
+</div>
+<div id="wrapper">
+    <!-- movie panel-->
+    <div id="movie" class="panel" data-title="视频搜索">
+        <div class="list"></div>
+    </div>
+    <!-- tv panel-->
+    <div id="tv" class="panel" data-title="视频搜索">
+        <div class="list"></div>
+    </div>
+    <!-- category panel-->
+    <div id="category-index" class="panel" data-title="视频搜索">
+		<div class="list"></div>
+    </div>
+    <!-- search result panel-->
+    <div id="search" class="panel" data-title="视频搜索">
+        <div class="list"></div>
+    </div>
+    <!-- category result panel-->
+    <div id="category" class="panel" data-title="视频搜索">
+        <div class="list"></div>
+    </div>
+    <!-- search index panel-->
+	<div id="search-index" class="panel" data-title="视频搜索">
+		<div class="list">
+			<div class="search-wrap">
+				<div class="search-outter" style="">
+					<input type="text" placeholder="豌豆荚视频搜索" id="search-key" onKeyUp="if(event.keyCode==13){window.goSearch($.trim($('#search-key').val()));}" />
+					<div class="search-btn" id="search-btn"></div>
+				</div>
+			</div>
+			<div class="search-tags">
+				<h2>热门搜索</h2>
+				<div class="search-taglink">
+				</div>
+			</div>
+		</div>
+	</div>
+    <!-- singer index panel-->
+    <div id="singer-index" class="panel hpanel" data-title="视频搜索"><div class="list"></div></div>
+    <!-- singer defail panel-->
+    <div id="singer-detail" class="panel hpanel" data-title="我是歌手"><div class="list"></div></div>
+    <!-- movie defail panel-->
+    <div id="movie-detail" class="panel detail"><div class="info-wrap"></div></div>
+    <!-- tv defail panel-->
+    <div id="tv-detail" class="panel detail"><div class="info-wrap"></div></div>
+</div>
+
+
+<!-- bottom navbar panel-->
+<div id="navbar">
+	<div class="navbtns">
+		
+	</div>
+</div>
+
+<script type="text/html" id="temp_empty">
+	<div style="margin:50px auto;text-align:center;">
+		对不起，没有搜索到任何结果. <a href="javascript:window.location.reload();void 0;">刷新</a>
+	</div>
+</script>
+
+<script type="text/html" id="temp_movie">
+    <%for (var i = 0, l = items.length || 0; i<l; i++){%>
+        <div class="line" onclick="loadDetail(this, '<%=items[i].id%>', 'movie')">
+                <img src="<%=items[i].img%>" class="cover" onerror="imgError(this)" />
+                <div class="splitline"></div>
+                <a href="javascript:void 0" class="downbtn" onclick="return(runTask(this));" <%if(typeof items[i].size!='undefined'){%>data-size="<%=items[i].size%>"<%}%> data-title="<%=items[i].title%>" data-id="<%=items[i].id%>" data-icon="<%=items[i].img%>" data-status="<%=items[i].downloadStatus%>" id="status_<%=items[i].id%>">离线下载</a>
+                <strong><%=items[i].title.sub(99, '...')%></strong>
+                <small>主演：<%if(items[i].actor){%><%=items[i].actor.join(',').sub(16, '...')%><%}else{%>暂无<%}%></small>
+                <small>评分：<%=items[i].score%></small>
+				<small id="status_<%=items[i].id%>_text" style="display:none;color:#66aa00"></small>
+        </div>
+    <%}%>
+</script>
+<script type="text/html" id="temp_tv">
+    <%for (var i = 0, l = items.length || 0; i<l; i++){%>
+        <div class="line" onclick="loadDetail(this, '<%=items[i].id%>', 'tv')">
+            <img src="<%=items[i].img%>" class="cover" />
+            <div class="tvupdate"><%=items[i].time.replace(/共\d+集\|/ig, '')%></div>
+            <strong class="tvtitle"><%=items[i].title.sub(12, '...')%></strong>
+            <small>主演：<%if(items[i].actor){%><%=items[i].actor.join(',').sub(16, '...')%><%}else{%>暂无<%}%></small>
+            <small>导演：<%if(items[i].director){%><%=items[i].director.join(',').sub(16, '...')%><%}else{%>暂无<%}%></small>
+            <small class="top25">评分：<%=items[i].score%></small>
+        </div>
+    <%}%>
+</script>
+<script type="text/html" id="temp_movie_detail">
+    <div class="cover-info">
+        <img src="<%=img%>" class="cover" onerror="imgError(this)" />
+        <p class="director">导演：<span><%if(typeof director!='undefined'){%><%=director.join(',').sub(20, '...')%><%}else{%>暂无<%}%></span></p>
+        <p class="actor">主演：<span><%if(typeof actor!='undefined'){%><%=actor.join(',').sub(15, '...')%><%}else{%>暂无<%}%></span></p>
+        <p class="year">年份：<span><%if(typeof year!='undefined'){%><%=year%><%}else{%>暂无<%}%></span></p>
+        <p class="category">类型：<span><%if(typeof cate!='undefined'){%><%=cate.join(',').sub(20, '...')%><%}else{%>暂无<%}%></span></p>
+        <p class="status">片长：<span><%if(typeof time!='undefined'){%><%=time%><%}else{%>未知<%}%></span></p>
+        <p class="status">评分：<span><%if(typeof score!='undefined'){%><%=score%><%}else{%>未知<%}%></span></p>
+    </div>
+    <div class="desc-info">
+        <h3>剧情介绍</h3>
+        <div class="desc-content"><%=info%></div>
+    </div>
+    <div class="from-info">
+        <div class="site">
+            来源：<%=from%>
+            <span></span>
+        </div>
+    </div>
+</script>
+
+
+<script type="text/html" id="temp_tv_detail">
+    <div class="cover-info">
+        <img src="<%=img%>" class="cover" onerror="imgError(this)" />
+        <p class="update"><%if(typeof time!='undefined'){%><%=time%><%}else{%>更新至 <%=show.length%> 集<%}%></p>
+        <p class="director">导演：<span><%if(typeof director!='undefined'){%><%=director.join(',').sub(20, '...')%><%}else{%>暂无<%}%></span></p>
+        <p class="actor">主演：<span><%if(typeof actor!='undefined'){%><%=actor.join(',').sub(15, '...')%><%}else{%>暂无<%}%></span></p>
+        <p class="year">年份：<span><%if(typeof year!='undefined'){%><%=year%><%}else{%>暂无<%}%></span></p>
+        <p class="category">类型：<span><%if(typeof cate!='undefined'){%><%=cate.join(',').sub(20, '...')%><%}else{%>暂无<%}%></span></p>
+        <p class="status">评分：<span><%if(typeof score!='undefined'){%><%=score%><%}else{%>未知<%}%></span></p>
+    </div>
+    
+    <div class="desc-info">
+        <h3>剧集列表
+            <!--span class="opt">全选</span-->
+        </h3>
+        <div class="tv-list">
+            <%var i = show.length;l = 0;while(i--){%>
+                <a href="javascript:void 0" class="tv-task" data-title="<%=show[i].title%>" data-tv="<%=title%>" data-id="<%=show[i].id%>" <%if(typeof show[i].size!='undefined'){%>data-size="<%=show[i].size%>"<%}%> data-icon="<%=img%>"<%if(show[i].downloadStatus!=OTS_NONE){%> class="selected"<%}%> data-style="selected" data-status="<%=show[i].downloadStatus%>"><%=show[i].title%></a>
+                <%if(l++==11){%>
+                    <div class="clear"></div>
+                    <div class="tv-more">
+                        <div class="tv-more-body">
+                <%}%>
+            <%}%>
+                    </div>
+                    <%if(l>=11){%><div class="tv-more-down" onclick="expandTvList(this)"></div><%}%>
+                    </div>
+        </div>
+        <div class="clear"></div>
+        <div class="more">
+            
+        </div>
+    </div>
+    
+    <div class="desc-info">
+        <h3>剧情介绍</h3>
+        <div class="desc-content"><%=info%></div>
+    </div>
+    <div class="from-info">
+        <div class="site">
+            来源：<%=from%>
+            <span></span>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="temp_search">
+	<%if(page == 1){%>
+	<div style="padding:7px 0 7px 10px;text-align:left;border-bottom:1px solid #DDD;background:#F0F0F0">共有 <%=items.length%> 条搜索结果</div>
+	<%}%>
+    <%for (var i = 0, l = items.length || 0; i<l; i++){%>
+        <div class="line" onclick="loadDetail(this, '<%=items[i].id%>', '<%=items[i].type%>')">
+            <img src="<%=items[i].img%>" class="cover" />
+            <div class="tvupdate"><%=items[i].time%></div>
+            <strong class="tvtitle"><%=items[i].title.sub(12, '...')%></strong>
+            <small>主演：<%if(items[i].actor){%><%=items[i].actor.join(',').sub(16, '...')%><%}else{%>暂无<%}%></small>
+            <small>导演：<%if(items[i].director){%><%=items[i].director.join(',').sub(16, '...')%><%}else{%>暂无<%}%></small>
+            <small class="top25">评分：<%=items[i].score%></small>
+        </div>
+    <%}%>
+</script>
+
+<script type="text/html" id="temp_category">
+	<%if(page == 1){%>
+	<div style="padding:7px 0 7px 10px;text-align:left;border-bottom:1px solid #DDD;background:#F0F0F0">共有 <%=total%> 部</div>
+	<%}%>
+    <%for (var i = 0, l = items.length || 0; i<l; i++){%>
+        <div class="line" onclick="loadDetail(this, '<%=items[i].id%>', '<%=items[i].type%>')">
+            <img src="<%=items[i].img%>" class="cover" />
+            <div class="tvupdate"><%=items[i].time%></div>
+            <strong class="tvtitle"><%=items[i].title.sub(12, '...')%></strong>
+            <small>主演：<%if(items[i].actor){%><%=items[i].actor.join(',').sub(16, '...')%><%}else{%>暂无<%}%></small>
+            <small>导演：<%if(items[i].director){%><%=items[i].director.join(',').sub(16, '...')%><%}else{%>暂无<%}%></small>
+            <small class="top25">评分：<%=items[i].score%></small>
+        </div>
+    <%}%>
+</script>
+
+
+
+<script type="text/html" id="temp_category_index">
+	<div class="catetitle">电视剧</div>
+	<div class="catelist">
+	<%for(var i = 0, l = tv.length; i < l; i++){%>
+		<div <%=window.E['onmousedown']%>="$(this).addClass('selected');" <%=window.E['onmouseup']%>="$(this).removeClass('selected');" onclick="window.setCategoryTitle('<%=tv[i].title%>');window.goCategory('<%=tv[i].id%>')"><%=tv[i].title%></div>
+	<%}%>
+	</div>
+	<div class="clear"></div>
+	<div class="catetitle">电影</div>
+	<div class="catelist">
+	<%for(var i = 0, l = movie.length; i < l; i++){%>
+		<div <%=window.E['onmousedown']%>="$(this).addClass('selected');" <%=window.E['onmouseup']%>="$(this).removeClass('selected');" onclick="window.setCategoryTitle('<%=movie[i].title%>');window.goCategory('<%=movie[i].id%>')"><%=movie[i].title%></div>
+	<%}%>
+	</div>
+</script>
+
+<script type="text/html" id="temp_search_index">
+	<%for(var i = 0, l = list.length; i < l; i++){%><a href="javascript:void 0" <%=window.E['onmousedown']%>="$(this).addClass('selected');" <%=window.E['onmouseup']%>="$(this).removeClass('selected');" onclick="window.goSearch('<%=list[i]%>')" data-tag="1"><%=list[i]%></a><%}%>
+</script>
+
+
+
+<script type="text/html" id="temp_singer_index">
+    <%for (var i = 0, l = items.length || 0; i<l; i++){%>
+        <div class="line" onclick="window.loadSinger('<%=items[i].id%>', '我是歌手 第<%=items.length-i%>期')" data-id="<%=items[i].id%>" <%=window.E['onmousedown']%>="$(this).addClass('active');" <%=window.E['onmouseup']%>="$(this).removeClass('active');">
+            <img src="<%=items[i].img%>" class="cover" />
+            <div class="tvupdate">共 <%=items[i].total%> 部</div>
+            <strong class="tvtitle">第<%=items.length-i%>期</strong>
+            <small><%=items[i].time%></small>
+        </div>
+    <%}%>
+</script>
+
+
+<script type="text/html" id="temp_singer-detail">
+    <%for (var i = 0, l = items.length || 0; i<l; i++){%>
+        <div class="line">
+                <img src="<%=items[i].img%>" class="cover" onerror="imgError(this)" />
+                <div class="splitline"></div>
+                <a href="javascript:void 0" class="downbtn" onclick="return(runTask(this));" data-title="<%=items[i].title%>" <%if(typeof items[i].size!='undefined'){%>data-size="<%=items[i].size%>"<%}%> data-id="<%=items[i].id%>" data-icon="<%=items[i].img%>" data-status="<%=items[i].downloadStatus%>" id="status_<%=items[i].id%>">离线下载</a>
+                <strong><%=items[i].title.sub(99, '...')%></strong>
+                <small>演唱者：<%if(typeof items[i].actor != 'undefined'){%><%=items[i].actor.sub(16, '...')%><%}else{%>暂无<%}%></small>
+				<small id="status_<%=items[i].id%>_text" style="display:none;color:#66aa00"></small>
+        </div>
+    <%}%>
+</script>
+
+<div id="debug" style="display:block;position:absolute;bottom:1px solid #CCC;background:#000;color:#FFF;z-index:999999;left:0;bottom:1px solid;"></div>
+<script src="./js/setting.js"></script>
+<script src="./js/app_v2.js?201301291650"></script>
+</body>
+</html>
